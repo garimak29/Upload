@@ -42,30 +42,35 @@ function setChaincodePath(){
 		"golang")
 		CC_SRC_PATH="github.com/example_cc/go"
 		;;
+		"node")
+		CC_SRC_PATH="$PWD/artifacts/src/github.com/example_cc/node"
+		;;
 		*) printf "\n ------ Language $LANGUAGE is not supported yet ------\n"$
 		exit 1
 	esac
 }
 
+
 setChaincodePath
 
-ORG1_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njk4Nzg2OTAsInVzZXJuYW1lIjoiSmltIiwib3JnTmFtZSI6Ik9yZzEiLCJpYXQiOjE1Njk4NDI2OTB9.CifSX_fGpi0ZfrUqp2RWWcScxg_wYA5jm4bQ_MfZT9A
+ORG1_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njk5NTQxNDcsInVzZXJuYW1lIjoiSmltIiwib3JnTmFtZSI6Ik9yZzEiLCJpYXQiOjE1Njk5MTgxNDd9.l6i2UahTaIT_iw8GbxPT3j3kbFMS7KQ5Jv3cysGXHz4
+ORG2_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njk5NTQyMDEsInVzZXJuYW1lIjoiQmFycnkiLCJvcmdOYW1lIjoiT3JnMiIsImlhdCI6MTU2OTkxODIwMX0.nJtoeYdYSMhXpRlq5B8XiAxDFkGk9GS9asI_mf8xJuE
 
-
-echo "POST instantiate chaincode on Org1"
+export UPLOAD=$(echo -n "{\"name\":\"pan\",\"hash\":\"This is a hash code\",\"owner\":\"tom\"}" | base64 | tr -d \\n)
+echo "POST invoke chaincode on peers of Org1 and Org2"
 echo
 curl -s -X POST \
-  http://localhost:4000/channels/mychannel/chaincodes \
+  http://localhost:4000/channels/mychannel/chaincodes/mycc \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d "{
-	
-	\"chaincodeName\":\"mycc\",
-	\"chaincodeVersion\":\"v0\",
-	\"chaincodeType\": \"$LANGUAGE\",
-	\"fcn\" : \"init\",
-	\"args\":[]
+	\"peers\": [\"peer0.org1.example.com\",\"peer0.org2.example.com\"],
+	\"fcn\":\"initUpload\",
+	\"transientMap\": [{\"Upload\":\"$UPLOAD\"}],
+	\"args\":[\"\"]
 }"
 echo
+echo
 
-echo "POST instantiate chaincode on Org1"
+echo "{\"Upload\":\"$UPLOAD\"}"
+

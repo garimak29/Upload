@@ -207,6 +207,15 @@ func (t *SimpleChaincode) initUpload(stub shim.ChaincodeStubInterface, args []st
 		return shim.Error("Error getting transient: " + err.Error())
 	}
 
+//	if(transMap == nil)
+	//	fmt.Println("transMap is nil ")
+	/*
+	var buffer = new Buffer(transMap.map.conversation.value.toArrayBuffer());
+// from buffer into string
+var JSONString = buffer.toString(‘utf8’);
+// from json string into object
+var JSONObject = JSON.parse(JSONString);
+*/
 	if _, ok := transMap["Upload"]; !ok {
 		return shim.Error("Upload must be a key in the transient map")
 	//return shim.Error(transMap["Upload"]);

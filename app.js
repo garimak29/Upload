@@ -271,14 +271,15 @@ app.post('/channels/:channelName/chaincodes', async function(req, res) {
 		return;
 	}
 	
-	if (!args) {
+	/*if (!args) {
 		res.json(getErrorMessage('\'args\''));
 		return;
 	}
-
+*/
 	logger.debug("Creating message.......")
 	
-	let message = await instantiate.instantiateChaincode(peers, channelName, chaincodeName, chaincodeVersion, chaincodeType, fcn, args, req.username, req.orgname);
+	/*let message = await instantiate.instantiateChaincode(peers, channelName, chaincodeName, chaincodeVersion, chaincodeType, fcn, args, req.username, req.orgname);*/
+	let message = await instantiate.instantiateChaincode(peers, channelName, chaincodeName, chaincodeVersion, chaincodeType, fcn, req.username, req.orgname);
 	
 	logger.debug("Sending message.......")
 	res.send(message);
@@ -291,10 +292,12 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName', async function(req,
 	var channelName = req.params.channelName;
 	var fcn = req.body.fcn;
 	var args = req.body.args;
+	var transients = req.body.transientMap;
 	logger.debug('channelName  : ' + channelName);
 	logger.debug('chaincodeName : ' + chaincodeName);
 	logger.debug('fcn  : ' + fcn);
 	logger.debug('args  : ' + args);
+	logger.debug('transient : '+transients)
 	if (!chaincodeName) {
 		res.json(getErrorMessage('\'chaincodeName\''));
 		return;
@@ -312,7 +315,7 @@ app.post('/channels/:channelName/chaincodes/:chaincodeName', async function(req,
 		return;
 	}
 
-	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, req.username, req.orgname);
+	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, fcn, args, req.username, req.orgname,transients);
 	res.send(message);
 });
 // Query on chaincode on target peers

@@ -186,6 +186,7 @@ curl -s -X POST \
 echo
 echo
 
+
 echo "POST invoke chaincode on peers of Org1 and Org2"
 echo
 curl -s -X POST \
@@ -194,8 +195,9 @@ curl -s -X POST \
   -H "content-type: application/json" \
   -d "{
 	\"peers\": [\"peer0.org1.example.com\",\"peer0.org2.example.com\"],
-	\"fcn\":\"move\",
-	\"args\":[\"a\",\"b\",\"10\"]
+	\"fcn\":\"initUpload\",
+	\“transientMap\”: {\"name\":\"Pan\", \"hash\":\"this is my hash code\", \"owner\":\"tom\" }
+	\"args\":[\"a\",\"100\",\"b\",\"200\"]
 }"
 echo
 echo
@@ -203,9 +205,13 @@ echo
 echo "GET query chaincode on peer1 of Org1"
 echo
 curl -s -X GET \
-  "http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer0.org1.example.com&fcn=query&args=%5B%22a%22%5D" \
+  "http://localhost:4000/channels/mychannel/chaincodes/mycc?peer=peer0.org1.example.com&fcn=readUpload" \
   -H "authorization: Bearer $ORG1_TOKEN" \
-  -H "content-type: application/json"
+  -H "content-type: application/json"\
+  -d "{
+	\"args\":[\"Pan\"]
+  
+  }"
 echo
 echo
 

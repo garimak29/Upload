@@ -18,7 +18,9 @@ const util = require('util');
 const helper = require('./helper.js');
 const logger = helper.getLogger('instantiate-chaincode');
 
-const instantiateChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, args, username, org_name) {
+/*const instantiateChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, args, username, org_name) {
+	*/
+	const instantiateChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, username, org_name) {
 	logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
 		' ============\n');
 	let error_message = null;
@@ -47,7 +49,7 @@ const instantiateChaincode = async function(peers, channelName, chaincodeName, c
 			chaincodeId: chaincodeName,
 			chaincodeType: chaincodeType,
 			chaincodeVersion: chaincodeVersion,
-			args: args,
+			//args: args,
 			txId: tx_id,
 
 			// Use this to demonstrate the following policy:

@@ -58,7 +58,7 @@ echo
 ORG1_TOKEN=$(curl -s -X POST \
   http://localhost:4000/users \
   -H "content-type: application/x-www-form-urlencoded" \
-  -d 'username=Jim&orgName=Org1')
+  -d 'username=Jim1&orgName=Org1')
 echo $ORG1_TOKEN
 ORG1_TOKEN=$(echo $ORG1_TOKEN | jq ".token" | sed "s/\"//g")
 echo
@@ -196,8 +196,8 @@ curl -s -X POST \
   -d "{
 	\"peers\": [\"peer0.org1.example.com\",\"peer0.org2.example.com\"],
 	\"fcn\":\"initUpload\",
-	\“transientMap\”: {\"name\":\"Pan\", \"hash\":\"this is my hash code\", \"owner\":\"tom\" }
-	\"args\":[\"a\",\"100\",\"b\",\"200\"]
+	\"transientMap\": {\"Upload\":\"$UPLOAD\"},
+	\"args\":{\"Upload\":\"$UPLOAD\"}
 }"
 echo
 echo

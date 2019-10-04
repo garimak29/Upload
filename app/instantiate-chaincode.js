@@ -17,10 +17,9 @@
 const util = require('util');
 const helper = require('./helper.js');
 const logger = helper.getLogger('instantiate-chaincode');
+var fs = require('fs');
 
-/*const instantiateChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, args, username, org_name) {
-	*/
-	const instantiateChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, username, org_name) {
+const instantiateChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, args, username, org_name) {
 	logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
 		' ============\n');
 	let error_message = null;
@@ -42,16 +41,24 @@ const logger = helper.getLogger('instantiate-chaincode');
 		                                       // be used to sign the proposal request.
 		// will need the transaction ID string for the event registration later
 		const deployId = tx_id.getTransactionID();
-
+		const collectionsConfigPath = 'artifacts/src/github.com/example_cc/collections_config.json';
+		//var envelope = fs.readFileSync(path.join(__dirname, collectionsConfigPath));
+		var envelope = path.join(__dirname, collectionsConfigPath);
+		
+		logger.debug("--> envelop"+envelop)
+		var collectionConf = client.extractChannelConfig(envelope);
 		// send proposal to endorser
 		const request = {
+			
 			targets : peers,
 			chaincodeId: chaincodeName,
 			chaincodeType: chaincodeType,
 			chaincodeVersion: chaincodeVersion,
-			//args: args,
+			args: args,
 			txId: tx_id,
-
+			'collections-config': collectionConf,
+			//config: collectionConf,
+			
 			// Use this to demonstrate the following policy:
 			// The policy can be fulfilled when members from both orgs signed.
 			'endorsement-policy': {
@@ -67,9 +74,9 @@ const logger = helper.getLogger('instantiate-chaincode');
 
 		if (functionName)
 			request.fcn = functionName;
-
+		logger.debug("request :"+request)
 		let results = await channel.sendInstantiateProposal(request, 60000); //instantiate takes much longer
-
+		logger.debug("results: "+results);
 		// the returned object has both the endorsement results
 		// and the actual proposal, the proposal will be needed
 		// later when we send a transaction to the orderer

@@ -53,24 +53,26 @@ function setChaincodePath(){
 
 setChaincodePath
 
-ORG1_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njk5NTQxNDcsInVzZXJuYW1lIjoiSmltIiwib3JnTmFtZSI6Ik9yZzEiLCJpYXQiOjE1Njk5MTgxNDd9.l6i2UahTaIT_iw8GbxPT3j3kbFMS7KQ5Jv3cysGXHz4
-ORG2_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njk5NTQyMDEsInVzZXJuYW1lIjoiQmFycnkiLCJvcmdOYW1lIjoiT3JnMiIsImlhdCI6MTU2OTkxODIwMX0.nJtoeYdYSMhXpRlq5B8XiAxDFkGk9GS9asI_mf8xJuE
+ORG1_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzAyMjQxODgsInVzZXJuYW1lIjoiSmltMSIsIm9yZ05hbWUiOiJPcmcxIiwiaWF0IjoxNTcwMTg4MTg4fQ.YMfU9nsY12MdvRGlsxQShVrz02xCghO3ms91IKWffjA
+ORG2_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzAyMjQxODksInVzZXJuYW1lIjoiQmFycnkiLCJvcmdOYW1lIjoiT3JnMiIsImlhdCI6MTU3MDE4ODE4OX0.tB1_DpsAUAeBFF02u2xx-kV7SeTTGqX7aJv-ZU4Ng0o
 
 export UPLOAD=$(echo -n "{\"name\":\"pan\",\"hash\":\"This is a hash code\",\"owner\":\"tom\"}" | base64 | tr -d \\n)
-echo "POST invoke chaincode on peers of Org1 and Org2"
+
+echo "POST instantiate chaincode on Org1"
 echo
 curl -s -X POST \
-  http://localhost:4000/channels/mychannel/chaincodes/mycc \
+  http://localhost:4000/channels/mychannel/chaincodes \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d "{
-	\"peers\": [\"peer0.org1.example.com\",\"peer0.org2.example.com\"],
-	\"fcn\":\"initUpload\",
-	\"transientMap\": [{\"Upload\":\"$UPLOAD\"}],
-	\"args\":[\"\"]
+	\"chaincodeName\":\"mycc\",
+	\"chaincodeVersion\":\"v0\",
+	\"chaincodeType\": \"$LANGUAGE\",
+	\"args\":[\"a\",\"100\",\"b\",\"200\"]
 }"
 echo
 echo
+
 
 echo "{\"Upload\":\"$UPLOAD\"}"
 

@@ -18,7 +18,7 @@ const util = require('util');
 const helper = require('./helper.js');
 const logger = helper.getLogger('invoke-chaincode');
 
-const invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn, args, username, org_name , transientMap) {
+const invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn, args, username, org_name , transients) {
 	logger.debug(util.format('\n============ invoke transaction on channel %s ============\n', channelName));
 	let error_message = null;
 	let tx_id_string = null;
@@ -45,20 +45,26 @@ const invokeChaincode = async function(peerNames, channelName, chaincodeName, fc
 			fcn: fcn,
 			args: args,
 			chainId: channelName,
-			txId: tx_id
+			txId: tx_id,
+			transientMap : transients
 		};
-		var buffer;
-		if (transientMap) {
-			buffer = new Uint8Array(transientMap.toArrayBuffer())
-		request.transientMap = {"Upload": buffer};
-		}
+		var buf;
+		logger.debug("Value of transients......."+transients)
+		//buffer = new Uint8Array(transients.toArrayBuffer())
+		buf = Buffer.from(JSON.stringify(transients));
+		//request.transientMap = {buf};
+		//if (transients) {
+			//buffer = new Uint8Array(transientMap.toArrayBuffer())
+		//request.transientMap = {"Upload": transients};
+		//}
 		logger.debug("Error..........")
 		logger.debug("Transient map "+request.transientMap)
 		let results = await channel.sendTransactionProposal(request);
-logger.debug("Error ended ......")
+logger.debug("Error ended ......"+results[0])
 		// the returned object has both the endorsement results
 		// and the actual proposal, the proposal will be needed
 		// later when we send a transaction to the orderer
+		
 		const proposalResponses = results[0];
 		const proposal = results[1];
 

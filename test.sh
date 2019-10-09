@@ -53,8 +53,8 @@ function setChaincodePath(){
 
 setChaincodePath
 
-ORG1_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzAyMjQxODgsInVzZXJuYW1lIjoiSmltMSIsIm9yZ05hbWUiOiJPcmcxIiwiaWF0IjoxNTcwMTg4MTg4fQ.YMfU9nsY12MdvRGlsxQShVrz02xCghO3ms91IKWffjA
-ORG2_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzAyMjQxODksInVzZXJuYW1lIjoiQmFycnkiLCJvcmdOYW1lIjoiT3JnMiIsImlhdCI6MTU3MDE4ODE4OX0.tB1_DpsAUAeBFF02u2xx-kV7SeTTGqX7aJv-ZU4Ng0o
+ORG1_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzA2NDkzNzMsInVzZXJuYW1lIjoiSmltMSIsIm9yZ05hbWUiOiJPcmcxIiwiaWF0IjoxNTcwNjEzMzczfQ.IF-DDRWYmR1jr-Svsmb27V_YqGgm90-dg8X0si2J12Q
+ORG2_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzA2NDkzNzQsInVzZXJuYW1lIjoiQmFycnkiLCJvcmdOYW1lIjoiT3JnMiIsImlhdCI6MTU3MDYxMzM3NH0.SlYknqAAzgSzqYAmynzXdhpIzdUZTSyTmKwN0U0OEWs
 
 export UPLOAD=$(echo -n "{\"name\":\"pan\",\"hash\":\"This is a hash code\",\"owner\":\"tom\"}" | base64 | tr -d \\n)
 

@@ -6,6 +6,7 @@
    "maxPeerCount": 3,
    "blockToLive":1000000,
    "memberOnlyRead": true
+   
 },
  {
    "name": "collectionUploadPrivateDetails",
@@ -14,5 +15,6 @@
    "maxPeerCount": 3,
    "blockToLive":3,
    "memberOnlyRead": true
+
  }
 ]

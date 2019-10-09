@@ -17,7 +17,7 @@
 const util = require('util');
 const helper = require('./helper.js');
 const logger = helper.getLogger('instantiate-chaincode');
-var fs = require('fs');
+
 
 const instantiateChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, args, username, org_name) {
 	logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
@@ -41,12 +41,8 @@ const instantiateChaincode = async function(peers, channelName, chaincodeName, c
 		                                       // be used to sign the proposal request.
 		// will need the transaction ID string for the event registration later
 		const deployId = tx_id.getTransactionID();
-		const collectionsConfigPath = 'artifacts/src/github.com/example_cc/collections_config.json';
-		//var envelope = fs.readFileSync(path.join(__dirname, collectionsConfigPath));
-		var envelope = path.join(__dirname, collectionsConfigPath);
-		
-		logger.debug("--> envelop"+envelop)
-		var collectionConf = client.extractChannelConfig(envelope);
+		const collectionsConfigPath = '../../../artifacts/src/github.com/example_cc/collections_config.json';
+		logger.debug('collectionsConfigPath'+collectionsConfigPath);
 		// send proposal to endorser
 		const request = {
 			
@@ -56,8 +52,8 @@ const instantiateChaincode = async function(peers, channelName, chaincodeName, c
 			chaincodeVersion: chaincodeVersion,
 			args: args,
 			txId: tx_id,
-			'collections-config': collectionConf,
-			//config: collectionConf,
+			'collections-config': collectionsConfigPath,
+			
 			
 			// Use this to demonstrate the following policy:
 			// The policy can be fulfilled when members from both orgs signed.
